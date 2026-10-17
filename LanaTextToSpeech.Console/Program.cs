@@ -1,17 +1,19 @@
 ﻿using LanaTextToSpeech.PiperWrapper;
 using PiperSharp;
+using NAudio.CoreAudioApi;
+using NAudio.Wave;
+using System.Runtime.InteropServices.Marshalling;
+using LanaTextToSpeech.Console;
 
-Console.WriteLine("Testing the Piper wrapper");
+//var enumerator = new MMDeviceEnumerator();
+//var devices = enumerator.EnumerateAudioEndPoints(DataFlow.Render, DeviceState.Active);
 
-PiperWrapper piperWrapper = new PiperWrapper();
-piperWrapper.LoadModel(ModelKeys.librittsHigh).Wait();
+//for (int i = 0; i < devices.Count; i++)
+//{
+//    var device = devices[i];
+//    Console.WriteLine($"Device {i}: {device.FriendlyName}");
+//}
 
-Console.WriteLine();
-Console.WriteLine("Please write the text you want to convert to speech (press Enter when done):");
-string textToConvert = Console.ReadLine();
+ConsoleWrapper consoleWrapper = new ConsoleWrapper(0);
 
-byte[] test = piperWrapper.GenerateAudio(textToConvert).Result;
-piperWrapper.WriteAudio(textToConvert, "output.wav");
-
-Console.WriteLine();
-Console.WriteLine("Piper wrapper test completed.");
+consoleWrapper.SherpaVersion();

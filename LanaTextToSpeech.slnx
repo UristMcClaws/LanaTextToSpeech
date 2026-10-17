@@ -1,4 +1,6 @@
 <Solution>
   <Project Path="LanaTextToSpeech.Console/LanaTextToSpeech.Console.csproj" />
+  <Project Path="LanaTextToSpeech.Maui/LanaTextToSpeech.Maui.csproj" Id="455ced5d-29bc-4e8b-a7ee-83d15efb89c0" />
   <Project Path="LanaTextToSpeech.PiperWrapper/LanaTextToSpeech.PiperWrapper.csproj" />
+  <Project Path="LanaTextToSpeech.Sherpa/LanaTextToSpeech.Sherpa.csproj" Id="f5a82bf8-bab9-4490-9b5b-97627ac1bffb" />
 </Solution>

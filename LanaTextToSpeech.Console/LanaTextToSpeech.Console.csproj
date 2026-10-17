@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\LanaTextToSpeech.PiperWrapper\LanaTextToSpeech.PiperWrapper.csproj" />
+    <ProjectReference Include="..\LanaTextToSpeech.Sherpa\LanaTextToSpeech.Sherpa.csproj" />
   </ItemGroup>
 
 </Project>

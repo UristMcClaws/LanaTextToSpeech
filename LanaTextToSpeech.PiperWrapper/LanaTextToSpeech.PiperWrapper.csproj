@@ -7,6 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="NAudio" Version="3.2.0" />
+    <PackageReference Include="NAudio.Core" Version="3.2.0" />
+    <PackageReference Include="NAudio.Wasapi" Version="3.2.0" />
     <PackageReference Include="PiperSharp" Version="1.0.7" />
   </ItemGroup>
 
