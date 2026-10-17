@@ -7,4 +7,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\LanaTextToSpeech.PiperWrapper\LanaTextToSpeech.PiperWrapper.csproj" />
+  </ItemGroup>
+
 </Project>
