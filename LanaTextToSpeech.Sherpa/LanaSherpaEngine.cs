@@ -66,7 +66,7 @@ public class LanaSherpaEngine
     private void LoadModel(string modelKey, string tokensFile = "tokens.txt", string dataDir = "espeak-ng-data")
     {
         string directory = Directory.GetCurrentDirectory();
-        string modelDirectory = Path.Join(directory, "models", modelKey);
+        string modelDirectory = Path.Join(directory, "Models", modelKey);
         if (!Directory.Exists(modelDirectory))
         {
             throw new DirectoryNotFoundException($"Model directory '{modelDirectory}' not found!");
