@@ -18,6 +18,7 @@ namespace LanaTextToSpeech.Maui
         private Models model;
         private bool isGenerating = false;
         private ObservableCollection<string> History = new ObservableCollection<string>();
+        private float volumeMultiplier = 1.0f;
         private string lastModelKey = null;
         private int? lastVoice = null;
 
@@ -30,6 +31,9 @@ namespace LanaTextToSpeech.Maui
 
             // Detect Enter (Completed) on the single-line Entry to auto-generate + play
             InputEditor.Completed += InputEditor_Completed;
+            // Volume stepper hookup
+            VolumeStepper.ValueChanged += VolumeStepper_ValueChanged;
+            VolumeLabel.Text = $"{volumeMultiplier:F1}x";
 
             // Hook up history view and load models (SelectedIndexChanged handler will populate voices)
             HistoryList.ItemsSource = History;
@@ -179,6 +183,14 @@ namespace LanaTextToSpeech.Maui
             MainThread.BeginInvokeOnMainThread(() => History.Insert(0, entry));
         }
 
+        private void VolumeStepper_ValueChanged(object sender, ValueChangedEventArgs e)
+        {
+            // Stepper uses integer steps 0..20 to represent 0.0..2.0 in 0.1 increments.
+            var intVal = (int)Math.Round(e.NewValue);
+            volumeMultiplier = intVal / 10.0f;
+            try { VolumeLabel.Text = $"{volumeMultiplier:F1}x"; } catch { }
+        }
+
         // Entry.Completed handler triggers when the Return/Done key is pressed on the keyboard.
         private async void InputEditor_Completed(object sender, EventArgs e)
         {
@@ -212,7 +224,31 @@ namespace LanaTextToSpeech.Maui
                 });
 
                 // Run playback on background thread and await completion so we can update status when done
-                await Task.Run(() => engine?.PlayAudio(currentAudio));
+                await Task.Run(() =>
+                {
+                    var samples = currentAudio?.Samples;
+                    if (samples != null)
+                    {
+                        var backup = (float[])samples.Clone();
+                        var mult = (float)volumeMultiplier;
+                        try
+                        {
+                            if (Math.Abs(mult - 1.0f) > 0.0001f)
+                            {
+                                for (int i = 0; i < samples.Length; i++) samples[i] *= mult;
+                            }
+                            engine?.PlayAudio(currentAudio, volumeMultiplier);
+                        }
+                        finally
+                        {
+                            for (int i = 0; i < samples.Length; i++) samples[i] = backup[i];
+                        }
+                    }
+                    else
+                    {
+                        engine?.PlayAudio(currentAudio, volumeMultiplier);
+                    }
+                });
 
                 await MainThread.InvokeOnMainThreadAsync(() =>
                 {
@@ -238,7 +274,31 @@ namespace LanaTextToSpeech.Maui
                 await MainThread.InvokeOnMainThreadAsync(() => StatusLabel.Text = "Playing...");
                 int? playVoice = VoicesPicker.SelectedItem != null ? int.Parse(VoicesPicker.SelectedItem.ToString()) : (int?)null;
 
-                await Task.Run(() => engine.PlayAudio(currentAudio));
+                await Task.Run(() =>
+                {
+                    var samples = currentAudio?.Samples;
+                    if (samples != null)
+                    {
+                        var backup = (float[])samples.Clone();
+                        var mult = (float)volumeMultiplier;
+                        try
+                        {
+                            if (Math.Abs(mult - 1.0f) > 0.0001f)
+                            {
+                                for (int i = 0; i < samples.Length; i++) samples[i] *= mult;
+                            }
+                            engine.PlayAudio(currentAudio, volumeMultiplier);
+                        }
+                        finally
+                        {
+                            for (int i = 0; i < samples.Length; i++) samples[i] = backup[i];
+                        }
+                    }
+                    else
+                    {
+                        engine.PlayAudio(currentAudio, volumeMultiplier);
+                    }
+                });
 
                 await MainThread.InvokeOnMainThreadAsync(() => StatusLabel.Text = "Finished playing.");
             }
