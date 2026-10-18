@@ -1,36 +1,61 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="LanaTextToSpeech.Maui.MainPage">
+			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+			 x:Class="LanaTextToSpeech.Maui.MainPage"
+			 Title="Lana TTS">
+	<ScrollView>
+		<VerticalStackLayout Padding="16"
+							 Spacing="12">
+			<Label Text="Model"
+				   FontAttributes="Bold" />
+			<Picker x:Name="ModelsPicker"
+					Title="Select model" />
 
-    <ScrollView>
-        <VerticalStackLayout
-            Padding="30,0"
-            Spacing="25">
-            <Image
-                Source="dotnet_bot.png"
-                HeightRequest="185"
-                Aspect="AspectFit"
-                SemanticProperties.Description="dot net bot in a submarine number ten" />
+			<Label Text="Voice"
+				   FontAttributes="Bold" />
+			<Picker x:Name="VoicesPicker"
+					Title="Select voice" />
 
-            <Label
-                Text="Hello, World!"
-                Style="{StaticResource Headline}"
-                SemanticProperties.HeadingLevel="Level1" />
+			<Label Text="Text to speak"
+				   FontAttributes="Bold" />
+				<Entry x:Name="InputEditor"
+					   Placeholder="Enter text here..."
+					   Keyboard="Text"
+					   HorizontalOptions="FillAndExpand"
+					   VerticalOptions="Start"
+					   HeightRequest="40" />
 
-            <Label
-                Text="Welcome to &#10;.NET Multi-platform App UI"
-                Style="{StaticResource SubHeadline}"
-                SemanticProperties.HeadingLevel="Level2"
-                SemanticProperties.Description="Welcome to dot net Multi platform App U I" />
+			<HorizontalStackLayout Spacing="10">
+				<Button x:Name="GenerateButton"
+						Text="Generate"
+						Clicked="GenerateButton_Clicked" />
+				<Button x:Name="PlayButton"
+						Text="Play"
+						Clicked="PlayButton_Clicked"
+						IsEnabled="False" />
+				<Button x:Name="SaveButton"
+						Text="Save"
+						Clicked="SaveButton_Clicked"
+						IsEnabled="False" />
+			</HorizontalStackLayout>
 
-            <Button
-                x:Name="CounterBtn"
-                Text="Click me" 
-                SemanticProperties.Hint="Counts the number of times you click"
-                Clicked="OnCounterClicked"
-                HorizontalOptions="Fill" />
-        </VerticalStackLayout>
-    </ScrollView>
+			<Label x:Name="StatusLabel"
+				   Text=""
+				   FontAttributes="Italic"
+				   LineBreakMode="TailTruncation" />
 
+			<Label Text="History" FontAttributes="Bold" />
+			<CollectionView x:Name="HistoryList"
+					   HeightRequest="200"
+					   ItemsLayout="VerticalList"
+					   SelectionMode="None">
+					<CollectionView.ItemTemplate>
+						<DataTemplate>
+							<Label Text="{Binding .}" LineBreakMode="WordWrap" Padding="6" />
+						</DataTemplate>
+					</CollectionView.ItemTemplate>
+			</CollectionView>
+
+		</VerticalStackLayout>
+	</ScrollView>
 </ContentPage>

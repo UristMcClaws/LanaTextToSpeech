@@ -18,13 +18,13 @@ public class LanaSherpaEngine
         LoadModel(modelKey);
     }
 
-    public OfflineTtsGeneratedAudio GenerateAudio(string text)
+    public OfflineTtsGeneratedAudio GenerateAudio(string text, int voice = 0)
     {
         // 2. Initialize the TTS engine
         using (OfflineTts tts = new OfflineTts(config))
         {
             // 3. Generate the audio (Text, Speaker ID, Speed)
-            var generatedAudio = tts.Generate(text, 1.0f, 4);
+            var generatedAudio = tts.Generate(text, 1.0f, voice);
 
             return generatedAudio;
 
