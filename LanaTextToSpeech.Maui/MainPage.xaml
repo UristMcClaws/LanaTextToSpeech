@@ -18,12 +18,29 @@
 
 			<Label Text="Text to speak"
 				   FontAttributes="Bold" />
-				<Entry x:Name="InputEditor"
-					   Placeholder="Enter text here..."
-					   Keyboard="Text"
-					   HorizontalOptions="FillAndExpand"
-					   VerticalOptions="Start"
-					   HeightRequest="40" />
+			<Entry x:Name="InputEditor"
+				   Placeholder="Enter text here..."
+				   Keyboard="Text"
+				   HorizontalOptions="FillAndExpand"
+				   VerticalOptions="Start"
+				   HeightRequest="40" />
+
+			<HorizontalStackLayout Spacing="8"
+								   VerticalOptions="Center">
+				<Label Text="Volume"
+					   VerticalOptions="Center" />
+				<Stepper x:Name="VolumeStepper"
+						 Minimum="0"
+						 Maximum="20"
+						 Increment="1"
+						 Value="10"
+						 VerticalOptions="Center" />
+				<Label x:Name="VolumeLabel"
+					   Text="1.0x"
+					   VerticalOptions="Center"
+					   WidthRequest="50"
+					   HorizontalTextAlignment="Center" />
+			</HorizontalStackLayout>
 
 			<HorizontalStackLayout Spacing="10">
 				<Button x:Name="GenerateButton"
@@ -44,18 +61,20 @@
 				   FontAttributes="Italic"
 				   LineBreakMode="TailTruncation" />
 
-			<Label Text="History" FontAttributes="Bold" />
+			<Label Text="History"
+				   FontAttributes="Bold" />
 			<CollectionView x:Name="HistoryList"
-					   HeightRequest="200"
-					   ItemsLayout="VerticalList"
-					   SelectionMode="None">
-					<CollectionView.ItemTemplate>
-						<DataTemplate>
-							<Label Text="{Binding .}" LineBreakMode="WordWrap" Padding="6" />
-						</DataTemplate>
-					</CollectionView.ItemTemplate>
+							HeightRequest="200"
+							ItemsLayout="VerticalList"
+							SelectionMode="None">
+				<CollectionView.ItemTemplate>
+					<DataTemplate>
+						<Label Text="{Binding .}"
+							   LineBreakMode="WordWrap"
+							   Padding="6" />
+					</DataTemplate>
+				</CollectionView.ItemTemplate>
 			</CollectionView>
-
 		</VerticalStackLayout>
 	</ScrollView>
 </ContentPage>

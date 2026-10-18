@@ -41,12 +41,20 @@ public class LanaSherpaEngine
         audioData.SaveToWaveFile(filePath);
     }
 
-    public void PlayAudio(OfflineTtsGeneratedAudio audioData)
+    public void PlayAudio(OfflineTtsGeneratedAudio audioData, float volumeMultiplier = 1.0f)
     {
+        float[] samples = audioData.Samples;
+
+        for (int i = 0; i < samples.Length; i++)
+        {
+            float scaledsample = samples[i] * volumeMultiplier;
+            samples[i] = Math.Clamp(scaledsample, -1.0f, 1.0f);
+        }
+
         var enumerator = new MMDeviceEnumerator();
         var devices = enumerator.EnumerateAudioEndPoints(DataFlow.Render, DeviceState.Active);
 
-        float[] audioSamples = audioData.Samples;
+        float[] audioSamples = samples;
         int sampleRate = audioData.SampleRate;
 
         var sampleProvider = new FloatArraySampleProvider(audioSamples, sampleRate);
